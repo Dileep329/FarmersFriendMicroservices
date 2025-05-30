@@ -5,8 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.3.10</version> <!-- or latest 3.2.x -->
 	</parent>
 	<groupId>com.farmers.friend</groupId>
 	<artifactId>UserService</artifactId>
