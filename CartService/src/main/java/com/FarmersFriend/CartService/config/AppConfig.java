@@ -1,7 +1,5 @@
 package com.FarmersFriend.CartService.config;
 
-
-
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
 import org.modelmapper.ModelMapper;
@@ -14,7 +12,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 
 @Configuration
 //@EnableCaching

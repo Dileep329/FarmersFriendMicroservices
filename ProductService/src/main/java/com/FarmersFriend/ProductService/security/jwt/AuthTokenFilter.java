@@ -33,14 +33,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-//        String path = request.getRequestURI();
-//        if (path.startsWith("/swagger-ui") ||
-//                path.startsWith("/v3/api-docs") ||
-//                path.equals("/swagger-ui.html") ||
-//                path.startsWith("/webjars")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
+
         logger.debug("AuthTokenFilter called for URI: {}", request.getRequestURI());
         try {
             String jwt = parseJwt(request);
