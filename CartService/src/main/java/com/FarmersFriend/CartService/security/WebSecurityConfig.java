@@ -1,6 +1,5 @@
 package com.FarmersFriend.CartService.security;
 
-;
 import com.FarmersFriend.CartService.models.AppRole;
 import com.FarmersFriend.CartService.models.Role;
 import com.FarmersFriend.CartService.models.User;
@@ -80,9 +79,9 @@ public class WebSecurityConfig {
                                 //.requestMatchers("/api/public/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
-                                .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER")
-                                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                                .requestMatchers("/seller/**").hasAnyAuthority("ROLE_SELLER")
+                                .requestMatchers("**/user/**").hasAnyAuthority("ROLE_USER")
+                                .requestMatchers("**/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("**/seller/**").hasAnyAuthority("ROLE_SELLER")
                                 .requestMatchers("/images/**").permitAll()
                                 .anyRequest().authenticated()
                 );

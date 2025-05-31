@@ -50,6 +50,7 @@ public class AppConfig {
         ExecutorService executor = Executors.newFixedThreadPool(5);
         return ExecutorServiceMetrics.monitor(meterRegistry, executor, "customExecutor");
     }
+
 }
 //    @Bean
 //    public RedisConnectionFactory redisConnectionFactory() {
