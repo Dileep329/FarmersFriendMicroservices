@@ -12,6 +12,7 @@ import com.farmers.friend.UserService.security.request.SignupRequest;
 import com.farmers.friend.UserService.security.response.MessageResponse;
 import com.farmers.friend.UserService.security.response.UserInfoResponse;
 import com.farmers.friend.UserService.security.services.UserDetailsImpl;
+import com.farmers.friend.UserService.service.UserKafkaProducer;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +48,9 @@ public class AuthController {
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    UserKafkaProducer userKafkaProducer;
 
     @PostMapping("/signin")
 //    @PreAuthorize("hasRole('ADMIN')")
@@ -131,7 +135,8 @@ public class AuthController {
         }
 
         user.setRoles(roles);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        userKafkaProducer.sendUser(savedUser);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

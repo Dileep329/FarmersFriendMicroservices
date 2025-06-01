@@ -14,12 +14,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserKafkaProducer userKafkaProducer;
+
     private BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
 
     @Override
     public String createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+       User savedUser= userRepository.save(user);
+        userKafkaProducer.sendUser(savedUser);
         return "User saved successfully";
     }
 

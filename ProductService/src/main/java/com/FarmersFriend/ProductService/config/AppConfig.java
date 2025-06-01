@@ -4,6 +4,11 @@ package com.FarmersFriend.ProductService.config;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +55,7 @@ public class AppConfig {
         ExecutorService executor = Executors.newFixedThreadPool(5);
         return ExecutorServiceMetrics.monitor(meterRegistry, executor, "customExecutor");
     }
+
 }
 //    @Bean
 //    public RedisConnectionFactory redisConnectionFactory() {

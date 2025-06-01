@@ -36,6 +36,9 @@ public class ProductServiceImpl  implements ProductService{
     @Autowired
     private AuthUtil authUtil;
 
+    @Autowired
+    ProductKafkaProducer productKafkaProducer;
+
     @Override
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
 
@@ -59,6 +62,7 @@ public class ProductServiceImpl  implements ProductService{
 //            product.setSpecialPrice(specialPrice);
             product.setUser(authUtil.loggedInUser());
             Product savedProduct=productRepository.save(product);
+            productKafkaProducer.sendProductEvent(savedProduct,"Created");
             return modelMapper.map(savedProduct, ProductDTO.class);
         }
         else{
@@ -168,7 +172,7 @@ public class ProductServiceImpl  implements ProductService{
 //        productFromDb.setSpecialPrice(product.getSpecialPrice());
 
         Product savedProduct = productRepository.save(productFromDb);
-
+        productKafkaProducer.sendProductEvent(savedProduct,"Updated");
         return modelMapper.map(savedProduct, ProductDTO.class);
     }
 
@@ -177,7 +181,8 @@ public class ProductServiceImpl  implements ProductService{
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
-        productRepository.delete(product);
+         productRepository.delete(product);
+        productKafkaProducer.sendProductEvent(product,"Deleted");
         return modelMapper.map(product, ProductDTO.class);
     }
 

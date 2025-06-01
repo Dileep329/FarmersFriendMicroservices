@@ -61,7 +61,6 @@ public class User {
             orphanRemoval = true)
     private Set<Product> products;
 
-
 }
 
 

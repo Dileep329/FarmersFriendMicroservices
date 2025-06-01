@@ -28,13 +28,3 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    tags-sorter: alpha
-    operations-sorter: alpha
-    urls:
-      - url: /v3/api-docs/public-apis
-        name: Public APIs
-      - url: /v3/api-docs/actuator
-        name: Actuator

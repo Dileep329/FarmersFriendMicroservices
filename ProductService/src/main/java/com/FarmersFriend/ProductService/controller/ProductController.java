@@ -5,6 +5,7 @@ package com.FarmersFriend.ProductService.controller;
 import com.FarmersFriend.ProductService.config.AppConstants;
 import com.FarmersFriend.ProductService.payload.ProductDTO;
 import com.FarmersFriend.ProductService.payload.ProductResponse;
+import com.FarmersFriend.ProductService.service.ProductKafkaProducer;
 import com.FarmersFriend.ProductService.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
 
 
     @PostMapping("/admin/categories/{categoryId}/product")
