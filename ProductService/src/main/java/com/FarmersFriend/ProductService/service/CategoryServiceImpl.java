@@ -27,6 +27,9 @@ public class CategoryServiceImpl implements CategoryService{
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private CategoryKafkaProducer categoryKafkaProducer;
+
     @Override
     public CategoryResponse getAllUser(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
         Sort sortByAndOrder=sortOrder.equalsIgnoreCase("asc")
@@ -56,16 +59,15 @@ public class CategoryServiceImpl implements CategoryService{
             throw new APIException("Category with the category name "+category.getCategoryName()+" already exists");
         }
         categoryRepository.save(category);
+        categoryKafkaProducer.sendCategoryEvent(category,"Created");
         return modelMapper.map(category,CategoryDTO.class);
     }
 
     @Override
     public CategoryDTO deleteCategory(Long categoryId) {
-        Optional<Category> category=categoryRepository.findById(categoryId);
-        if(category.isEmpty()){
-            throw new ResourceNotFoundException("Category does not exists");
-        }
+        Category category=categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category does not exist"));
         categoryRepository.deleteById(categoryId);
+        categoryKafkaProducer.sendCategoryEvent(category,"DELETED");
         return modelMapper.map(category, CategoryDTO.class);
     }
 
@@ -75,6 +77,7 @@ public class CategoryServiceImpl implements CategoryService{
         Category savedCategory=savedCategoryOptional.orElseThrow(()->new ResourceNotFoundException("Category","categoryId",categoryId));
         Category updatedCategory = modelMapper.map(categoryDTO, Category.class);
         savedCategory.setCategoryName(updatedCategory.getCategoryName());
+        categoryKafkaProducer.sendCategoryEvent(updatedCategory,"Updated");
         return categoryDTO;
     }
 

@@ -16,4 +16,5 @@ public class UserKafkaProducer {
     public void sendUser(User user) {
         kafkaTemplate.send(TOPIC, user);
     }
+
 }

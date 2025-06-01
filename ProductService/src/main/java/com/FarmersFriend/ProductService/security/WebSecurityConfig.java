@@ -81,7 +81,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
                                 .requestMatchers("/product/user/**").hasAnyAuthority("ROLE_USER")
-                                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("product/admin/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/seller/**").hasAnyAuthority("ROLE_SELLER")
                                 .requestMatchers("/product/seller/**").hasAnyAuthority("ROLE_SELLER")
                                 .requestMatchers("/images/**").permitAll()
