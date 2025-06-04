@@ -112,10 +112,6 @@
 <!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-cache</artifactId>-->
 <!--		</dependency>-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
@@ -170,6 +166,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>productservice</finalName>
 	</build>
 
 </project>

@@ -1,80 +1,93 @@
-
 version: '3.8'
 
 services:
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: kafka
-    depends_on:
-      - zookeeper
     ports:
       - "9092:9092"
-      - "29092:29092"  # Internal broker port
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
-    container_name: elasticsearch
+  product-service:
+    image: dilesp/product-service:latest
+    build:
+      context: ./ProductService
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: productservice.jar
+    container_name: product-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - xpack.security.transport.ssl.enabled=false
-    ports:
-      - "9200:9200"
+      - SPRING_PROFILES_ACTIVE=docker
     networks:
-      - elk
+      - spring-net
 
-  logstash:
-    image: docker.elastic.co/logstash/logstash:8.11.3
-    container_name: logstash
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
+  user-service:
+    image: dilesp/user-service:latest
+    build:
+      context: ./UserService
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: user-service.jar
+    container_name: userservice
     ports:
-      - "5000:5000"
-    networks:
-      - elk
+      - "8082:8082"
     depends_on:
-      - elasticsearch
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.11.3
-    container_name: kibana
-    ports:
-      - "5601:5601"
+      - kafka
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - SPRING_PROFILES_ACTIVE=docker
     networks:
-      - elk
-    depends_on:
-      - elasticsearch
+      - spring-net
 
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:8.11.3
-    container_name: filebeat
-    user: root
-    volumes:
-      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - elk
+  cart-service:
+    image: dilesp/cart-service:latest
+    build:
+      context: ./CartService
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: cartservice.jar
+    container_name: cart-service
+    ports:
+      - "8083:8083"
     depends_on:
-      - logstash
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring-net
+
+  api-gateway:
+    image: dilesp/apigateway-service:latest
+    build:
+      context: ./APIGateway
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: apigateway.jar
+    container_name: api-gateway
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring-net
 
 networks:
-  elk:
+  spring-net:
     driver: bridge

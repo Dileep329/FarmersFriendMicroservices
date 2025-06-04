@@ -64,6 +64,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>eurekaserver</finalName>
 	</build>
 
 </project>

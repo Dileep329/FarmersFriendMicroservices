@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: CartService
+  template:
+    metadata:
+      labels:
+        app: CartService
+    spec:
+      containers:
+        - name: cart-service
+          image: dilesp/cart-service:latest
+          ports:
+            - containerPort: 8083
