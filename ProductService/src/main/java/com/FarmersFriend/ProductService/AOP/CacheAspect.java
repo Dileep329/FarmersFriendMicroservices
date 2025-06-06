@@ -1,18 +1,28 @@
-package com.FarmersFriend.ProductService.AOP;//package com.friend.farmers.AOP;
+//package com.FarmersFriend.ProductService.AOP;//package com.friend.farmers.AOP;
+////
+////import org.aspectj.lang.ProceedingJoinPoint;
+////import org.aspectj.lang.annotation.Around;
+////import org.aspectj.lang.annotation.Aspect;
+////import org.springframework.beans.factory.annotation.Autowired;
+////import org.springframework.cache.Cache;
+////import org.springframework.cache.CacheManager;
+////import org.springframework.cache.annotation.Cacheable;
+//////import org.aspectj.lang.ProceedingJoinPoint;
+//////import org.aspectj.lang.annotation.Around;
+//////import org.aspectj.lang.annotation.Aspect;
+//////import org.springframework.beans.factory.annotation.Autowired;
+//////import org.springframework.cache.CacheManager;
+//////import org.springframework.cache.annotation.Cacheable;
+////import org.springframework.stereotype.Component;
 //
+//import jakarta.persistence.Cacheable;
 //import org.aspectj.lang.ProceedingJoinPoint;
 //import org.aspectj.lang.annotation.Around;
 //import org.aspectj.lang.annotation.Aspect;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cache.Cache;
 //import org.springframework.cache.CacheManager;
-//import org.springframework.cache.annotation.Cacheable;
-////import org.aspectj.lang.ProceedingJoinPoint;
-////import org.aspectj.lang.annotation.Around;
-////import org.aspectj.lang.annotation.Aspect;
-////import org.springframework.beans.factory.annotation.Autowired;
-////import org.springframework.cache.CacheManager;
-////import org.springframework.cache.annotation.Cacheable;
+//
 //import org.springframework.stereotype.Component;
 //
 //import static org.springframework.cache.interceptor.SimpleKeyGenerator.generateKey;
